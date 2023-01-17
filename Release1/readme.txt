@@ -1,1 +1,9 @@
-
+Order to run scripts is as follows
+triggers_code_description.sql
+LookUps.sql
+Storage_Conversion.sql
+Software_Type_Conversion.sql
+Software2_Conversion.sql
+AWS_SoftwareType_Conversion.sql
+Questions_Insert.sql
+ApplicationSurvey_Insert.sql
