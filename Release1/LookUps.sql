@@ -837,6 +837,87 @@ INSERT INTO public."LookUp"(
 INSERT INTO public."LookUp"(
 	"Code", "Description", "Type", "Index")
 	VALUES ('Internet Gateway', 'Internet Gateway', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Certificate Manager', 'Certificate Manager', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Systems Manager', 'Systems Manager', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Relational Database Service', 'Relational Database Service', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Simple Notification Service', 'Simple Notification Service', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Virtual Private Cloud', 'Virtual Private Cloud', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Identity and Access Management', 'Identity and Access Management', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Virtual Private Network', 'Virtual Private Network', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Elastic Compute 2', 'Elastic Compute 2', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Route 53', 'Route 53', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('ElastiCache', 'ElastiCache', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Fargate', 'Fargate', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('EventBridge', 'EventBridge', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Key Management Service', 'Key Management Service', 'CloudService', 1); 
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('CloudTrail', 'CloudTrail', 'CloudService', 1); 
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Elasticsearch Service', 'Elasticsearch Service', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Secrets Manager', 'Secrets Manager', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Elastic Container Registry', 'Elastic Container Registry', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Elastic Load Balancing', 'Elastic Load Balancing', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('CloudWatch', 'CloudWatch', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Database Migration Service', 'Database Migration Service', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Config', 'Config', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Artifact', 'Artifact', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Simple Queue Service', 'Simple Queue Service', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Security Hub', 'Security Hub', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Elastic Container Service', 'Elastic Container Service', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('WAF', 'WAF', 'CloudService', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Firewall Manager', 'Firewall Manager', 'CloudService', 1);
 	
 		---------------------------------------------
 	--                Cloud Service Type              --
@@ -865,10 +946,10 @@ INSERT INTO public."LookUp"(
 	VALUES ('KB', 'KB', 'StorageUnits', 1);
 INSERT INTO public."LookUp"(
 	"Code", "Description", "Type", "Index")
-	VALUES ('GB', 'GB', 'StorageUnits', 1);
+	VALUES ('MB', 'MB', 'StorageUnits', 1);
 INSERT INTO public."LookUp"(
 	"Code", "Description", "Type", "Index")
-	VALUES ('MB', 'MB', 'StorageUnits', 1);
+	VALUES ('GB', 'GB', 'StorageUnits', 1);
 INSERT INTO public."LookUp"(
 	"Code", "Description", "Type", "Index")
 	VALUES ('TB', 'TB', 'StorageUnits', 1);
@@ -894,6 +975,9 @@ INSERT INTO public."LookUp"(
 INSERT INTO public."LookUp"(
 	"Code", "Description", "Type", "Index")
 	VALUES ('Tier3RAID5SAN', 'Tier3RAID5SAN', 'StorageType', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Elastic Block Store', 'Elastic Block Store', 'StorageType', 1);
 
 		---------------------------------------------
 	--                Survey Answers    		      --
@@ -985,4 +1069,66 @@ INSERT INTO public."LookUp"(
 	"Code", "Description", "Type", "Index")
 	VALUES ('Consuming', 'Consuming', 'AppCapability', 1);
 	
+		---------------------------------------------
+	--           AOP Classification Levels    		  --
+		---------------------------------------------
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Low', 'Low', 'AOPClassificationLevels', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Medium', 'Medium', 'AOPClassificationLevels', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('High', 'High', 'AOPClassificationLevels', 1);
+	
+		---------------------------------------------
+	--      	  		  AOP Status    		   	  --
+		---------------------------------------------
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Draft', 'Draft', 'AOPStatus', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('InProgress', 'In Progress', 'AOPStatus', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Inactive', 'Inactive', 'AOPStatus', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Closed', 'Closed', 'AOPStatus', 1);
+	
+		---------------------------------------------
+	--      			    Yes No    				  --
+		---------------------------------------------
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('Yes', 'Yes', 'YesNo', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('No', 'No', 'YesNo', 1);
+
+		---------------------------------------------
+	--      	  Digital Health Strategy    		  --
+		---------------------------------------------
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('EmpowerPatients', 'Empower Patients', 'DigitalHealthStrategy', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('TransformAcuteandHospitalBasedCare', 'Transform Acute and Hospital Based Care', 'DigitalHealthStrategy', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('AdvancedDataAnalyticsandSystemPlanning', 'Advanced Data Analytics and System Planning', 'DigitalHealthStrategy', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('EnhanceFoundationalClinicalSystems', 'Enhance Foundational Clinical Systems', 'DigitalHealthStrategy', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('DigitalHealthFoundation', 'Digital Health Foundation', 'DigitalHealthStrategy', 1);
+INSERT INTO public."LookUp"(
+	"Code", "Description", "Type", "Index")
+	VALUES ('EmpowerPatients', 'Empower Patients', 'DigitalHealthStrategy', 1);
+	
+
 commit;
