@@ -26,7 +26,7 @@ RAISE NOTICE '%', 'Description----------------'||rec_version."sftware";
 RAISE NOTICE '%', 'Vendor---------------------'||rec_version."Vendor";
 
 
-INSERT INTO public."Software_Type"(
+INSERT INTO public."SoftwareType"(
 	 "Code", "Description", "Vendor")
 	VALUES (rec_version."sftware", rec_version."sftware", rec_version."Vendor");
 
