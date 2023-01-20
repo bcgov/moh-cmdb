@@ -1,0 +1,85 @@
+{
+    "mode": "import_export",
+    "format": "csv",
+    "columns": [
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "Code",
+            "attributeName": "Code"
+        },
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "Description",
+            "attributeName": "Description"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "Application",
+            "attributeName": "Application"
+        },
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "App Version",
+            "attributeName": "Version"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "Environment Type",
+            "attributeName": "EnvironmentType"
+        },
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "URL",
+            "attributeName": "URL"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "IP_Aoo",
+            "attributeName": "IP_Aoo"
+        },
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "Component",
+            "attributeName": "Component"
+        },
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "Notes",
+            "attributeName": "Notes"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "App Instance Status",
+            "attributeName": "InstStatus"
+        }
+    ],
+    "dataRow": 2,
+    "firstCol": null,
+    "template": "AppInstanceExpImp",
+    "headerRow": 1,
+    "mergeMode": "leave_missing",
+    "useHeader": true,
+    "targetName": "AppInstance",
+    "targetType": "class",
+    "description": "AppInstanceExpImp",
+    "csvSeparator": ",",
+    "errorAccount": null,
+    "exportFilter": "",
+    "errorTemplate": "Empty",
+    "ignoreColumnOrder": true,
+    "importKeyAttributes": [
+        "Description"
+    ],
+    "attributeNameForUpdateAttrOnMissing": null,
+    "attributeValueForUpdateAttrOnMissing": null
+}

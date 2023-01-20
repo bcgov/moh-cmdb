@@ -1,0 +1,58 @@
+{
+    "mode": "export",
+    "format": "xlsx",
+    "columns": [
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "Acronym",
+            "attributeName": "Acronym"
+        },
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "AMS Contract",
+            "attributeName": "AMSContract"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "App Status",
+            "attributeName": "AppStatus"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "Type",
+            "attributeName": "Type"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "CGI Business Support Lead",
+            "attributeName": "CGIBSL"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "MOH Business Area SME",
+            "attributeName": "MOHSME"
+        }
+    ],
+    "dataRow": 2,
+    "firstCol": null,
+    "template": "Application_Export",
+    "headerRow": 1,
+    "mergeMode": "leave_missing",
+    "useHeader": true,
+    "targetName": "Application",
+    "targetType": "class",
+    "description": "Application_Export",
+    "csvSeparator": "",
+    "errorAccount": null,
+    "exportFilter": "",
+    "errorTemplate": "Empty",
+    "ignoreColumnOrder": true,
+    "attributeNameForUpdateAttrOnMissing": null,
+    "attributeValueForUpdateAttrOnMissing": null
+}

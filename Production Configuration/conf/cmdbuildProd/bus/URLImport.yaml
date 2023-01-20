@@ -1,0 +1,37 @@
+{
+    "mode": "import_export",
+    "format": "csv",
+    "columns": [
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "URL",
+            "attributeName": "Code"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "IP",
+            "attributeName": "IP"
+        }
+    ],
+    "dataRow": 2,
+    "firstCol": null,
+    "template": "URLImport",
+    "headerRow": 1,
+    "mergeMode": "leave_missing",
+    "useHeader": true,
+    "targetName": "URL",
+    "targetType": "class",
+    "description": "URLImport",
+    "csvSeparator": ",",
+    "errorAccount": null,
+    "exportFilter": "",
+    "errorTemplate": "Empty",
+    "ignoreColumnOrder": true,
+    "importKeyAttributes": [
+        "Code"
+    ],
+    "attributeNameForUpdateAttrOnMissing": null,
+    "attributeValueForUpdateAttrOnMissing": null
+}

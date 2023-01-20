@@ -1,0 +1,73 @@
+{
+    "mode": "import_export",
+    "format": "csv",
+    "columns": [
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "Name",
+            "attributeName": "Code"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "FQD Name",
+            "attributeName": "FQDName"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "OS",
+            "attributeName": "OS"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "Patching Schedule",
+            "attributeName": "PatchingSchedule"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "Zone",
+            "attributeName": "Zone"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "VLAN",
+            "attributeName": "VLAN"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "Managed By",
+            "attributeName": "ManagedBy"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "ServerStatus",
+            "attributeName": "ServerStatus"
+        }
+    ],
+    "dataRow": 2,
+    "firstCol": null,
+    "template": "ExportTest",
+    "headerRow": 1,
+    "mergeMode": "leave_missing",
+    "useHeader": true,
+    "targetName": "PhysicalServer",
+    "targetType": "class",
+    "description": "PhysicalServerIEtest",
+    "csvSeparator": ",",
+    "errorAccount": null,
+    "exportFilter": "",
+    "errorTemplate": "Empty",
+    "ignoreColumnOrder": true,
+    "importKeyAttributes": [
+        "Code"
+    ],
+    "attributeNameForUpdateAttrOnMissing": null,
+    "attributeValueForUpdateAttrOnMissing": null
+}

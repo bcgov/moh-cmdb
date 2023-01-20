@@ -1,0 +1,37 @@
+{
+    "mode": "import",
+    "format": "csv",
+    "columns": [
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "Name",
+            "attributeName": "Code"
+        },
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "Version",
+            "attributeName": "Version"
+        }
+    ],
+    "dataRow": 2,
+    "firstCol": null,
+    "template": "Reports",
+    "headerRow": 1,
+    "mergeMode": "leave_missing",
+    "useHeader": true,
+    "targetName": "Reports",
+    "targetType": "class",
+    "description": "Reports",
+    "csvSeparator": ",",
+    "errorAccount": null,
+    "exportFilter": null,
+    "errorTemplate": "Empty",
+    "ignoreColumnOrder": true,
+    "importKeyAttributes": [
+        "Code"
+    ],
+    "attributeNameForUpdateAttrOnMissing": null,
+    "attributeValueForUpdateAttrOnMissing": null
+}

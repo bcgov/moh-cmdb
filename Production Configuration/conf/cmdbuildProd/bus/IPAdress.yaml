@@ -1,0 +1,43 @@
+{
+    "mode": "import_export",
+    "format": "csv",
+    "columns": [
+        {
+            "mode": "default",
+            "default": "",
+            "columnName": "IP Address",
+            "attributeName": "Code"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "IP Type",
+            "attributeName": "IPType"
+        },
+        {
+            "mode": "description",
+            "default": "",
+            "columnName": "VLAN",
+            "attributeName": "VLAN"
+        }
+    ],
+    "dataRow": 2,
+    "firstCol": null,
+    "template": "IPAdress",
+    "headerRow": 1,
+    "mergeMode": "leave_missing",
+    "useHeader": true,
+    "targetName": "IPAddress",
+    "targetType": "class",
+    "description": "IPAdress",
+    "csvSeparator": ",",
+    "errorAccount": null,
+    "exportFilter": "",
+    "errorTemplate": "Empty",
+    "ignoreColumnOrder": true,
+    "importKeyAttributes": [
+        "Code"
+    ],
+    "attributeNameForUpdateAttrOnMissing": null,
+    "attributeValueForUpdateAttrOnMissing": null
+}
