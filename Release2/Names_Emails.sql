@@ -1,29 +1,21 @@
-select  i2."Id",
+select distinct
 		i2."Code",
-		i2."Email",
-		a."Description" as "Application",
-		ai."Description" as "Application Instance",
-		ad."Description",
-		a."CGIBSL",
-		a."MOHSME",
-		a."MOHSBC",
-		a."CGITL"
+		i2."Email"
 from public."Application" a
 	 left outer join public."Individual" i2
 		 on i2."Id"=a."CGIBSL"
 		 or i2."Id"=a."MOHSME"
 		 or i2."Id"=a."MOHSBC"
 		 or i2."Id"=a."CGITL"
-		 or i2."Status"='A',
+		 and i2."Status"='A'
+		 and a."Status"='A',
 	 public."AppInstance" ai,
 	 public."AppDependency" ad
 where 
        a."Id"=ai."Application"
 and   ai."Id"=ad."PrimaryApplication"
-and    a."Status"='A'
 and   ai."Status"='A'
 and   ad."Status"='A'
-and    a."Acronym"='SWT'
 and   ad."SecondaryApplication"= (select ai2."Id" 
 									from  public."Application" a2, 
 										  public."AppInstance" ai2
@@ -35,10 +27,19 @@ and   ad."SecondaryApplication"= (select ai2."Id"
 																	and   l."Code"='Production')
 									and   a2."Status" = 'A'
 									and   ai2."Status" ='A')
-									
-select a."CGIBSL",
-		a."MOHSME",
-		a."MOHSBC",
-		a."CGITL"
-from public."Application" a
-where a."Acronym"='SWT'
+union 									
+select distinct
+	ind."Code",
+	ind."Email"
+from public."Application" app
+	left outer join public."Individual" ind
+		 on ind."Id"=app."CGIBSL"
+		 or ind."Id"=app."MOHSME"
+		 or ind."Id"=app."MOHSBC"
+		 or ind."Id"=app."CGITL"
+		 and ind."Status"='A'
+		 and app."Status"='A'
+where app."Acronym"='Keycloak'
+and app."Status"='A'
+and ind."Status"='A'
+
