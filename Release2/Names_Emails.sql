@@ -1,3 +1,4 @@
+CREATE OR REPLACE VIEW public.keycloak_contacts_vw as
 select distinct
 		i2."Code",
 		i2."Email"
