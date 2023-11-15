@@ -1,0 +1,24 @@
+SELECT app."Acronym" ApplicationName,
+teamOrg."Code",
+app."Description" ApplicationDesc,
+app."About" About,
+app_type."Description" ApplicationType, 
+org."Code" Organization, 
+team."Code" Team, 
+hostProvider."Code" HostProvider, 
+hostType."Code" HostType,
+ind."FirstName"||' '||ind."LastName" ContactPerson,
+AppType."Code"
+FROM public."LookUp" hostProvider	 
+INNER JOIN public."LookUp" hostType ON hostProvider."ParentId" = hostType."Id" AND hostType."Type" = 'HostingTypes' AND hostType."Status" = 'A' AND hostType."Code" = 'Cloud'
+INNER JOIN public."Application" app ON hostProvider."Id" = ANY (app."HostingProvider") AND app."Status" = 'A'
+INNER JOIN public."LookUp" AppType ON AppType."Id" = app."Type"
+LEFT OUTER JOIN public."Individual" ind ON app."MOHSBC" = ind."Id"
+INNER JOIN public."Organization" org ON app."Organization" = org."Id"
+INNER JOIN public."LookUp" app_type ON app."Type" = app_type."Id" AND app_type."Status" = 'A'
+LEFT OUTER JOIN public."Team" team ON app."CGISupTeamPrimary" = team."Id"
+LEFT OUTER JOIN public."Organization" teamOrg ON team."Organization" = teamOrg."Id"
+WHERE hostProvider."Status" = 'A' AND hostProvider."Type" = 'HostingProvider'
+ORDER BY app."Acronym";
+
+
