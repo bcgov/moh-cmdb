@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "ec2_assume_role_policy" {
 }
 
 resource "aws_iam_policy" "get_secret" {
-  name = "ECS_GetSecret"
+  name = "CMDB_ECS_GetSecret"
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
