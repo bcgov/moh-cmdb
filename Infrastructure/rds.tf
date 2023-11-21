@@ -38,7 +38,7 @@ resource "aws_db_subnet_group" "cmdb_subnet_group" {
 
 module "postgres_rds" {
   source = "terraform-aws-modules/rds/aws"
-  identifier           = "${var.application}-${var.target_env}-audit"
+  identifier           = "${var.application}-${var.target_env}"
   major_engine_version = "13"
   family               = "postgres13"
   engine               = "postgres"
