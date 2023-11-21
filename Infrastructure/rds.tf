@@ -46,7 +46,7 @@ module "postgres_rds" {
   instance_class       = "db.t3.micro"
   allocated_storage    = 5
 
-  db_name  = "${var.application}audit"
+  db_name  = "${var.application}"
   username = var.cmdb_master_username
   password = random_password.cmdb_master_password.result
   port     = "5432"
