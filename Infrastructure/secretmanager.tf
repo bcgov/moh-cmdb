@@ -6,10 +6,6 @@ resource "aws_secretsmanager_secret" "api_key" {
   name = "API_KEY_PRESIGNED_S3"
 }
 
-resource "aws_secretsmanager_secret" "api_url" {
-  name = "API_URL_PRESIGNED_S3"
-}
-
 resource "aws_secretsmanager_secret" "jms_user" {
   name = "JMS_BROKER_USERNAME"
 }
@@ -34,10 +30,6 @@ EOF
 resource "aws_secretsmanager_secret_version" "api_key" {
   secret_id     = aws_secretsmanager_secret.api_key.id
   secret_string = "changeme"
-}
-resource "aws_secretsmanager_secret_version" "api_url" {
-  secret_id     = aws_secretsmanager_secret.api_url.id
-  secret_string = aws_api_gateway_stage.dd-filedrop-stage.invoke_url
 }
 
 resource "aws_secretsmanager_secret_version" "jms_user" {
