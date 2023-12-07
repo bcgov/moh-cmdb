@@ -43,15 +43,7 @@ resource "aws_ecs_task_definition" "cmdb_td" {
         { name = "PG_USER",
         valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:username::" },
         { name = "PG_PASSWORD",
-        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:password::" },
-        { name = "API_KEY_PRESIGNED_S3",
-        valueFrom = "${aws_secretsmanager_secret_version.api_key.arn}" },
-        { name = "API_URL_PRESIGNED_S3",
-        valueFrom = "${aws_secretsmanager_secret_version.api_url.arn}" },
-        { name = "JMS_BROKER_USERNAME",
-        valueFrom = "${aws_secretsmanager_secret_version.jms_user.arn}" },
-        { name = "JMS_BROKER_PASSWORD",
-        valueFrom = "${aws_secretsmanager_secret_version.jms_pass.arn}" }
+        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:password::" }
       ]
       environment = [
         { name = "JVM_ARGS",
