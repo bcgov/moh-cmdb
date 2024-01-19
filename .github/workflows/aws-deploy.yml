@@ -65,7 +65,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          file: gis/Dockerfile
+          file: cmdb/Dockerfile
           push: true
           tags: ${{ env.IMAGE_ID }}:latest
           build-args: |
@@ -75,6 +75,7 @@ jobs:
     name: Terraform Apply
     environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
+    needs: docker_push
     steps:
       - name: Set TF_VAR_TIMESTAMP
         run: echo "TF_VAR_TIMESTAMP=$(date --rfc-3339=seconds)" >> $GITHUB_ENV
