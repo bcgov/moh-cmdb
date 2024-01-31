@@ -38,12 +38,16 @@ resource "aws_ecs_task_definition" "cmdb_td" {
         }
       ]
       secrets = [
-        { name = "PG_URL",
-        valueFrom = "${aws_secretsmanager_secret_version.pg_url.arn}" },
-        { name = "PG_USER",
+        { name = "POSTGRES_USER",
         valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:username::" },
-        { name = "PG_PASSWORD",
-        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:password::" }
+        { name = "POSTGRES_PASS",
+        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:password::" },
+        { name = "POSTGRES_PORT",
+        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:port::" },
+        { name = "POSTGRES_HOST",
+        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:host::" },
+        { name = "POSTGRES_DB",
+        valueFrom = "${aws_secretsmanager_secret_version.rds_credentials.arn}:db::" },
       ]
       environment = [
         { name = "JVM_ARGS",
