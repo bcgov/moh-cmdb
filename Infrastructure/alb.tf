@@ -15,7 +15,7 @@ data "aws_alb_listener" "front_end" {
 resource "aws_alb_target_group" "app" {
   name                 = "${var.application}-${var.target_env}-target-group"
   port                 = var.app_port
-  protocol             = "HTTPS"
+  protocol             = "HTTP"
   vpc_id               = data.aws_vpc.main.id
   target_type          = "ip"
   deregistration_delay = 30
@@ -30,12 +30,12 @@ resource "aws_alb_target_group" "app" {
 
   health_check {
     healthy_threshold   = "2"
-    interval            = "150"
+    interval            = "30"
     protocol            = "HTTPS"
     matcher             = "200"
-    timeout             = "120"
+    timeout             = "5"
     path                = var.health_check_path
-    unhealthy_threshold = "10"
+    unhealthy_threshold = "2"
   }
 
   tags = local.common_tags
@@ -56,4 +56,13 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing" {
       values = ["${var.alb_origin_id}"]
     }
   }
+}
+
+
+resource "aws_lb_target_group_attachment" "tg_attachment_cmdb" {
+    target_group_arn = aws_alb_target_group.app.arn
+    target_id        = aws_instance.cmdb.private_ip
+    port             = var.app_port
+
+    depends_on = [ aws_instance.cmdb ]
 }
