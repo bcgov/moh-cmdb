@@ -10,5 +10,6 @@ generate "test_tfvars" {
   app_port = 8080
   fam_console_idp_name = "TEST-IDIR"
   alb_origin_id = "cmdb.ynr9ed-test.nimbus.cloud.gov.bc.ca"
+  application_url = "cmdbt.hlth.gov.bc.ca"
   EOF
 }
