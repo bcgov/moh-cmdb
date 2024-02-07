@@ -7,8 +7,6 @@ generate "test_tfvars" {
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
-  fargate_cpu = 512
-  fargate_memory = 1024
   app_port = 8080
   fam_console_idp_name = "TEST-IDIR"
   alb_origin_id = "cmdb.ynr9ed-test.nimbus.cloud.gov.bc.ca"
