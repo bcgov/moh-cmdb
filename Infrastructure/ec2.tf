@@ -24,5 +24,4 @@ resource "aws_instance" "cmdb" {
   tags = {
     "Name" = "${var.application}-${var.target_env}"
   }
-  depends_on = [ aws_s3_object.tomcat ]
 }
