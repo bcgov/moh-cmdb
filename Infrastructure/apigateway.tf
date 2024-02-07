@@ -1,8 +1,8 @@
-#data "aws_acm_certificate" "cmdb_certificate" {
-#  domain      = "cmdb${substr(var.target_env,0,1)}.hlth.gov.bc.ca"
-#  statuses    = ["ISSUED"]
-#  most_recent = true
-#}
+data "aws_acm_certificate" "cmdb_certificate" {
+  domain      = "cmdb${substr(var.target_env,0,1)}.hlth.gov.bc.ca"
+  statuses    = ["ISSUED"]
+  most_recent = true
+}
 
 module "api_gateway" {
   source  = "terraform-aws-modules/apigateway-v2/aws"
@@ -13,8 +13,8 @@ module "api_gateway" {
   protocol_type          = "HTTP"
   create_api_domain_name = false
 
-  #domain_name                              = "cmdb${substr(var.target_env,0,1)}.hlth.gov.bc.ca"
-  #domain_name_certificate_arn              = data.aws_acm_certificate.cmdb_certificate.arn
+  domain_name                              = "cmdb${substr(var.target_env,0,1)}.hlth.gov.bc.ca"
+  domain_name_certificate_arn              = data.aws_acm_certificate.cmdb_certificate.arn
 
   integrations = {
     "ANY /{proxy+}" = {
