@@ -13,6 +13,7 @@ module "api_gateway" {
   protocol_type          = "HTTP"
   create_api_domain_name = false
 
+
   domain_name                              = "${var.application_url}"
   domain_name_certificate_arn              = data.aws_acm_certificate.cmdb_certificate.arn
 
