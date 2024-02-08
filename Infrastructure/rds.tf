@@ -44,7 +44,7 @@ module "postgres_rds" {
   engine               = "postgres"
   engine_version       = "13.10"
   instance_class       = "db.t3.micro"
-  allocated_storage    = 5
+  allocated_storage    = 10
 
   db_name  = "${var.application}"
   username = var.cmdb_master_username
