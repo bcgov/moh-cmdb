@@ -1,5 +1,5 @@
 data "aws_acm_certificate" "cmdb_certificate" {
-  domain      = "${var.application_url}"
+  domain      = var.application_url
   statuses    = ["ISSUED"]
   most_recent = true
 }
@@ -14,8 +14,8 @@ module "api_gateway" {
   create_api_domain_name = false
 
 
-  domain_name                              = "${var.application_url}"
-  domain_name_certificate_arn              = data.aws_acm_certificate.cmdb_certificate.arn
+  domain_name                 = var.application_url
+  domain_name_certificate_arn = data.aws_acm_certificate.cmdb_certificate.arn
 
   integrations = {
     "ANY /{proxy+}" = {

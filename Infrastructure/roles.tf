@@ -61,3 +61,42 @@ resource "aws_iam_role_policy_attachment" "secret_role" {
   policy_arn = aws_iam_policy.get_secret.arn
 
 }
+
+# EC2 instance role: Session Manager access and read access to the tomcat bucket
+resource "aws_iam_role" "cmdb_ec2" {
+  name               = "${var.application}-${var.target_env}-ec2-role"
+  assume_role_policy = data.aws_iam_policy_document.ec2_assume_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "cmdb_ec2_ssm" {
+  role       = aws_iam_role.cmdb_ec2.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy" "cmdb_ec2_tomcat_bucket" {
+  name = "tomcat-bucket-read"
+  role = aws_iam_role.cmdb_ec2.id
+
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Effect" : "Allow",
+          "Action" : "s3:ListBucket",
+          "Resource" : aws_s3_bucket.tomcat.arn
+        },
+        {
+          "Effect" : "Allow",
+          "Action" : "s3:GetObject",
+          "Resource" : "${aws_s3_bucket.tomcat.arn}/*"
+        }
+      ]
+    }
+  )
+}
+
+resource "aws_iam_instance_profile" "cmdb_ec2" {
+  name = "${var.application}-${var.target_env}-ec2-profile"
+  role = aws_iam_role.cmdb_ec2.name
+}

@@ -37,17 +37,17 @@ resource "aws_db_subnet_group" "cmdb_subnet_group" {
 }
 
 module "postgres_rds" {
-  source  = "terraform-aws-modules/rds/aws"
-  version = "~> 6.0"
+  source               = "terraform-aws-modules/rds/aws"
+  version              = "~> 6.0"
   identifier           = "${var.application}-${var.target_env}"
   major_engine_version = "13"
   family               = "postgres13"
   engine               = "postgres"
-  engine_version       = "13.10"
+  engine_version       = "13.23-rds.20260224"
   instance_class       = "db.t3.micro"
   allocated_storage    = 10
 
-  db_name  = "${var.application}"
+  db_name  = var.application
   username = var.cmdb_master_username
   password = random_password.cmdb_master_password.result
   port     = "5432"

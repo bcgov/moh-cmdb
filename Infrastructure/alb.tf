@@ -60,9 +60,9 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing" {
 
 
 resource "aws_lb_target_group_attachment" "tg_attachment_cmdb" {
-    target_group_arn = aws_alb_target_group.app.arn
-    target_id        = aws_instance.cmdb.private_ip
-    port             = var.app_port
+  target_group_arn = aws_alb_target_group.app.arn
+  target_id        = aws_instance.cmdb.private_ip
+  port             = var.app_port
 
-    depends_on = [ aws_instance.cmdb ]
+  depends_on = [aws_instance.cmdb]
 }
