@@ -9,7 +9,7 @@ terraform {
       version = "~> 3"
     }
   }
-  #required_version = "~> 1.3.7"
+  required_version = ">= 1.11" # S3 backend use_lockfile (native state locking)
 }
 
 locals {
