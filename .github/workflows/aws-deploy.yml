@@ -13,10 +13,6 @@ on:
         description: 'Run Terraform plan only (skip apply)'
         type: boolean
         default: false
-#   push:
-#     branches:
-#       - main
-#   pull_request:
 
 concurrency: ${{ github.event.inputs.environment }}
 

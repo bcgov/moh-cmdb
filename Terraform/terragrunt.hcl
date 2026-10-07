@@ -16,10 +16,9 @@ terraform {
   backend "s3" {
     bucket         = "terraform-remote-state-${ local.project }-${ local.environment }"
     key            = "${ local.project }/${ local.environment }/cmdb-app.tfstate"
-    dynamodb_table = "terraform-remote-state-lock-${ local.project }"
     region         = "ca-central-1"
     encrypt        = true
-    
+    use_lockfile   = true   # Native S3 locking (Terraform 1.11+); replaces the deprecated dynamodb_table
   }
 }
 EOF
