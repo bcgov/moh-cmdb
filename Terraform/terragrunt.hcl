@@ -41,7 +41,14 @@ generate "provider" {
   if_exists = "overwrite"
   contents  = <<EOF
 provider "aws" {
-  region  = var.aws_region
+  region = var.aws_region
+  default_tags {
+    tags = {
+      "Created By"    = "Terraform"
+      "Project"       = "CMDB"
+      "Service Owner" = "Midtier"
+    }
+  }
 }
 EOF
 }

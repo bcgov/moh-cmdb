@@ -1,8 +1,3 @@
-resource "aws_sns_topic" "alerts" {
-  name = "cloudwatch_alarms"
-}
-
-
 ##########################################
 ###### CloudWatch Alarm for RDS ##########
 ##########################################
@@ -19,7 +14,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_cpu_utilization" {
   alarm_description   = "Alarm when RDS CPU utilization exceeds 70%"
 
   alarm_actions = [
-    aws_sns_topic.alerts.arn
+    aws_sns_topic.cmdb-sns.arn
   ]
 
   dimensions = {
@@ -39,7 +34,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_db_connections" {
   alarm_description   = "Alarm when the number of database connections exceeds 100 for 2 consecutive periods"
 
   alarm_actions = [
-    aws_sns_topic.alerts.arn
+    aws_sns_topic.cmdb-sns.arn
   ]
 
   dimensions = {
@@ -58,7 +53,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_disk_queue_depth" {
   threshold           = 10
   alarm_description   = "Alarm when the disk queue depth (IOPS requests waiting to be serviced) exceeds 10 for 2 consecutive periods"
   alarm_actions = [
-    aws_sns_topic.alerts.arn
+    aws_sns_topic.cmdb-sns.arn
   ]
 
   dimensions = {
@@ -78,7 +73,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_free_storage_space" {
   alarm_description   = "Alarm when RDS free storage space drops below 2 GiB"
 
   alarm_actions = [
-    aws_sns_topic.alerts.arn
+    aws_sns_topic.cmdb-sns.arn
   ]
 
   dimensions = {
@@ -103,7 +98,7 @@ resource "aws_cloudwatch_metric_alarm" "ec2_cpu_utilization" {
   alarm_description   = "Alarm when EC2 CPU utilization is at or above 80% for 10 minutes"
 
   alarm_actions = [
-    aws_sns_topic.alerts.arn
+    aws_sns_topic.cmdb-sns.arn
   ]
 
   dimensions = {
@@ -123,7 +118,7 @@ resource "aws_cloudwatch_metric_alarm" "ec2_status_check_failed" {
   alarm_description   = "Alarm when the EC2 instance or system status check fails for 2 consecutive minutes"
 
   alarm_actions = [
-    aws_sns_topic.alerts.arn
+    aws_sns_topic.cmdb-sns.arn
   ]
 
   dimensions = {
@@ -148,7 +143,7 @@ resource "aws_cloudwatch_metric_alarm" "alb_unhealthy_hosts" {
   alarm_description   = "Alarm when any target in the app target group is unhealthy for 2 consecutive minutes"
 
   alarm_actions = [
-    aws_sns_topic.alerts.arn
+    aws_sns_topic.cmdb-sns.arn
   ]
 
   dimensions = {
