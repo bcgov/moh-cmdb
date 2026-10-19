@@ -52,6 +52,10 @@ module "postgres_rds" {
   password = random_password.cmdb_master_password.result
   port     = "5432"
 
+  # Module v6 defaults this to true, which ignores `password` and has RDS create
+  # its own Secrets Manager secret that auto-rotates every 7 days.
+  manage_master_user_password = false
+
   vpc_security_group_ids = [data.aws_security_group.data.id]
 
   maintenance_window = "Mon:00:00-Mon:03:00"

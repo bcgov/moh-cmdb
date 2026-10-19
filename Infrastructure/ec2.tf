@@ -1,9 +1,10 @@
 data "aws_ami" "linux" {
-  most_recent = true
-  owners      = ["amazon"]
+  owners = ["amazon"]
+  # Pinned AMI is deprecated by Amazon 90 days after release; keep resolving it after that.
+  include_deprecated = true
   filter {
     name   = "name"
-    values = ["al2023-ami-2023.*-kernel-6.1-x86_64"]
+    values = ["al2023-ami-2023.12.20260930.0-kernel-6.1-x86_64"]
   }
 }
 
@@ -23,5 +24,11 @@ resource "aws_instance" "cmdb" {
   }
   tags = {
     "Name" = "${var.application}-${var.target_env}"
+  }
+
+  lifecycle {
+    # The app is installed by hand on this box; without this a new AL2023 AMI
+    # release would replace the instance and wipe it.
+    ignore_changes = [ami, user_data]
   }
 }

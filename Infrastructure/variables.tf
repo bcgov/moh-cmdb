@@ -55,6 +55,12 @@ variable "health_check_path" {
   default = "/"
 }
 
+variable "health_check_matcher" {
+  description = "HTTP status codes the target group accepts as healthy"
+  type        = string
+  default     = "200-399"
+}
+
 variable "alb_name" {
   description = "Name of the internal alb"
   default     = "default"
