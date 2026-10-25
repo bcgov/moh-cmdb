@@ -104,6 +104,17 @@ variable "fam_console_idp_name" {
   type        = string
 }
 
+variable "postgres_engine_version" {
+  description = "RDS PostgreSQL engine version for this environment (e.g. 13.23-rds.20260514 or 17.11). Changing the major version upgrades the instance."
+  type        = string
+}
+
+variable "ec2_snapshot_retention_count" {
+  description = "Number of daily EBS snapshots of the EC2 instance to keep (one per day)"
+  type        = number
+  default     = 7
+}
+
 variable "db_instance_identifier" {
   description = "Identifies the cluster ID of aurora_rds_v2"
   default     = "cmdb-cluster"

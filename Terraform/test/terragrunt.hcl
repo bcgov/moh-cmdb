@@ -11,5 +11,6 @@ generate "test_tfvars" {
   fam_console_idp_name = "TEST-IDIR"
   alb_origin_id = "cmdbt.hlth.gov.bc.ca"
   application_url = "cmdbt.hlth.gov.bc.ca"
+  postgres_engine_version = "17.11"
   EOF
 }

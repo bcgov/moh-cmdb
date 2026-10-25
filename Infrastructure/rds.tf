@@ -36,16 +36,28 @@ resource "aws_db_subnet_group" "cmdb_subnet_group" {
   }
 }
 
+locals {
+  # var.postgres_engine_version is set per environment in Terraform/<env>/terragrunt.hcl.
+  # The parameter group family follows its major version, so on a major upgrade the
+  # module creates the new family's parameter group first, upgrades the instance onto
+  # it in the same change, and then deletes the old group.
+  postgres_major_version = split(".", var.postgres_engine_version)[0]
+}
+
 module "postgres_rds" {
   source               = "terraform-aws-modules/rds/aws"
   version              = "~> 6.0"
   identifier           = "${var.application}-${var.target_env}"
-  major_engine_version = "13"
-  family               = "postgres13"
+  major_engine_version = local.postgres_major_version
+  family               = "postgres${local.postgres_major_version}"
   engine               = "postgres"
-  engine_version       = "13.23-rds.20260224"
+  engine_version       = var.postgres_engine_version
   instance_class       = "db.t3.micro"
   allocated_storage    = 10
+
+  # Needed for Terraform to apply a major version change. It only permits the
+  # upgrade; the upgrade itself happens when postgres_engine_version changes.
+  allow_major_version_upgrade = true
 
   db_name  = var.application
   username = var.cmdb_master_username
@@ -60,6 +72,12 @@ module "postgres_rds" {
 
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
+
+  # Automated backups with point-in-time restore for the last 7 days.
+  backup_retention_period = 7
+
+  # Apply changes during terraform apply instead of the next maintenance window.
+  apply_immediately = true
 
   # Enhanced Monitoring - see example for details on how to create the role
   # by yourself, in case you don't want to create it automatically

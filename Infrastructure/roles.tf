@@ -100,3 +100,57 @@ resource "aws_iam_instance_profile" "cmdb_ec2" {
   name = "${var.application}-${var.target_env}-ec2-profile"
   role = aws_iam_role.cmdb_ec2.name
 }
+
+data "aws_iam_policy_document" "dlm_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["dlm.amazonaws.com"]
+    }
+  }
+}
+
+# Data Lifecycle Manager role: create and expire the EC2 instance's daily EBS snapshots
+resource "aws_iam_role" "cmdb_dlm" {
+  name               = "${var.application}-${var.target_env}-dlm-role"
+  assume_role_policy = data.aws_iam_policy_document.dlm_assume_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "cmdb_dlm" {
+  role       = aws_iam_role.cmdb_dlm.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSDataLifecycleManagerServiceRole"
+}
+
+# The root volume is encrypted, so DLM needs the volume's KMS key. Scoped to calls
+# made through EC2/EBS so it works with either aws/ebs or a landing zone key.
+resource "aws_iam_role_policy" "cmdb_dlm_kms" {
+  name = "ebs-snapshot-kms"
+  role = aws_iam_role.cmdb_dlm.id
+
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Effect" : "Allow",
+          "Action" : [
+            "kms:CreateGrant",
+            "kms:Encrypt",
+            "kms:Decrypt",
+            "kms:ReEncrypt*",
+            "kms:GenerateDataKey*",
+            "kms:DescribeKey"
+          ],
+          "Resource" : "*",
+          "Condition" : {
+            "StringEquals" : {
+              "kms:ViaService" : "ec2.${var.aws_region}.amazonaws.com"
+            }
+          }
+        }
+      ]
+    }
+  )
+}

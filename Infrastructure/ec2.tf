@@ -24,6 +24,8 @@ resource "aws_instance" "cmdb" {
   }
   tags = {
     "Name" = "${var.application}-${var.target_env}"
+    # Picked up by the daily snapshot policy in snapshots.tf
+    "SnapshotPolicy" = "${var.application}-${var.target_env}-daily"
   }
 
   lifecycle {
