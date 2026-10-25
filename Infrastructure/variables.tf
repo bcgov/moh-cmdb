@@ -123,3 +123,9 @@ variable "db_instance_identifier" {
 variable "timestamp" {
   type = string
 }
+
+variable "alert_emails" {
+  description = "Email addresses that receive CMDB alerts from cmdb-topic"
+  type        = list(string)
+  default     = ["hussein.kothari@cgi.com"]
+}
