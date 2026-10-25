@@ -129,3 +129,32 @@ variable "alert_emails" {
   type        = list(string)
   default     = ["hussein.kothari@cgi.com"]
 }
+
+variable "patch_window_schedule" {
+  description = "When the nightly patching window opens, in America/Vancouver time"
+  type        = string
+  default     = "cron(0 2 ? * * *)"
+}
+
+variable "patch_approve_after_days" {
+  description = "Days after release before a security update or bugfix is installed"
+  type        = number
+  default     = 7
+}
+
+variable "patch_operation" {
+  description = "Nightly patch run: Scan only reports missing patches; Install installs them and reboots if anything was installed"
+  type        = string
+  default     = "Install"
+
+  validation {
+    condition     = contains(["Scan", "Install"], var.patch_operation)
+    error_message = "patch_operation must be Scan or Install."
+  }
+}
+
+variable "tomcat_service_name" {
+  description = "systemd service the patching hooks stop and start (installed by user_data.sh)"
+  type        = string
+  default     = "tomcat10"
+}

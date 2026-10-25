@@ -12,5 +12,9 @@ generate "test_tfvars" {
   alb_origin_id = "cmdbt.hlth.gov.bc.ca"
   application_url = "cmdbt.hlth.gov.bc.ca"
   postgres_engine_version = "17.11"
+  patch_approve_after_days = 7
+  # Scan only (no installs, no reboots) until Tomcat on the test server runs as the
+  # tomcat10 service. Then remove this line so test installs patches nightly.
+  patch_operation = "Scan"
   EOF
 }

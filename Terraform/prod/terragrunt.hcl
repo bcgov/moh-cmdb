@@ -13,5 +13,7 @@ generate "prod_tfvars" {
   application_url = "cmdb.hlth.gov.bc.ca"
   # Stays on 13 until the data migration is done, then change to "17.11" to upgrade.
   postgres_engine_version = "13.23-rds.20260514"
+  # Prod installs each patch a week after test does.
+  patch_approve_after_days = 14
   EOF
 }

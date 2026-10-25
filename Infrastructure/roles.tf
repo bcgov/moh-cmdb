@@ -154,3 +154,67 @@ resource "aws_iam_role_policy" "cmdb_dlm_kms" {
     }
   )
 }
+
+data "aws_iam_policy_document" "ssm_maintenance_window_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ssm.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id]
+    }
+  }
+}
+
+# Maintenance window role: lets the nightly patching window (patching.tf) send the
+# patch command to the instance. The accounts don't have the Systems Manager
+# service-linked role that a window falls back on without one.
+resource "aws_iam_role" "cmdb_patching_window" {
+  name               = "${var.application}-${var.target_env}-patching-window-role"
+  assume_role_policy = data.aws_iam_policy_document.ssm_maintenance_window_assume_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "cmdb_patching_window" {
+  role       = aws_iam_role.cmdb_patching_window.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMMaintenanceWindowRole"
+}
+
+# Nightly patching (patching.tf): the pre-patch hook checks tonight's EBS snapshot,
+# and Run Command writes the patch output to CloudWatch Logs.
+resource "aws_iam_role_policy" "cmdb_ec2_patching" {
+  name = "patching"
+  role = aws_iam_role.cmdb_ec2.id
+
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Effect" : "Allow",
+          "Action" : "ec2:DescribeSnapshots",
+          "Resource" : "*"
+        },
+        {
+          "Effect" : "Allow",
+          "Action" : "logs:DescribeLogGroups",
+          "Resource" : "*"
+        },
+        {
+          "Effect" : "Allow",
+          "Action" : [
+            "logs:CreateLogStream",
+            "logs:DescribeLogStreams",
+            "logs:PutLogEvents"
+          ],
+          "Resource" : "${aws_cloudwatch_log_group.patching.arn}:*"
+        }
+      ]
+    }
+  )
+}
