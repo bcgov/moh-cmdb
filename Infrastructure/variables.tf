@@ -109,6 +109,18 @@ variable "postgres_engine_version" {
   type        = string
 }
 
+variable "tomcat_version" {
+  description = "Tomcat version user_data.sh installs; apache-tomcat-<version>.tar.gz must be in the tomcat S3 bucket"
+  type        = string
+  default     = "10.1.60"
+}
+
+variable "cmdbuild_war_file" {
+  description = "CMDBuild WAR in the tomcat S3 bucket that user_data.sh deploys"
+  type        = string
+  default     = "cmdbuild-4.2.0.war"
+}
+
 variable "ec2_snapshot_retention_count" {
   description = "Number of daily EBS snapshots of the EC2 instance to keep (one per day)"
   type        = number
@@ -122,4 +134,10 @@ variable "db_instance_identifier" {
 
 variable "timestamp" {
   type = string
+}
+
+variable "alert_emails" {
+  description = "Email addresses that receive CMDB alerts from cmdb-topic"
+  type        = list(string)
+  default     = ["hussein.kothari@cgi.com"]
 }

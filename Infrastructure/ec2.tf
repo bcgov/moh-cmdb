@@ -1,6 +1,6 @@
 data "aws_ami" "linux" {
   owners = ["amazon"]
-  # Pinned AMI is deprecated by Amazon 90 days after release; keep resolving it after that.
+  # Pinned AMI is deprecated by Amazon 90 days after release, keep resolving it after that.
   include_deprecated = true
   filter {
     name   = "name"
@@ -8,6 +8,10 @@ data "aws_ami" "linux" {
   }
 }
 
+locals {
+  # CMDBuild's URL path and config folder name: cmdbuildTest in test, cmdbuildProd in prod.
+  cmdbuild_webapp = "cmdbuild${title(var.target_env)}"
+}
 
 resource "aws_instance" "cmdb" {
   ami                    = data.aws_ami.linux.id
@@ -15,7 +19,13 @@ resource "aws_instance" "cmdb" {
   subnet_id              = values(data.aws_subnet.app)[0].id
   vpc_security_group_ids = [data.aws_security_group.app.id]
   iam_instance_profile   = aws_iam_instance_profile.cmdb_ec2.name
-  user_data              = file("user_data.sh")
+  user_data = templatefile("user_data.sh", {
+    region          = var.aws_region
+    bucket          = aws_s3_bucket.tomcat.bucket
+    tomcat_version  = var.tomcat_version
+    cmdbuild_war    = var.cmdbuild_war_file
+    cmdbuild_webapp = local.cmdbuild_webapp
+  })
 
   ebs_block_device {
     device_name           = "/dev/xvda"
@@ -29,8 +39,8 @@ resource "aws_instance" "cmdb" {
   }
 
   lifecycle {
-    # The app is installed by hand on this box; without this a new AL2023 AMI
-    # release would replace the instance and wipe it.
+    # user_data.sh sets up Tomcat and CMDBuild at first boot, and CMDBuild's config
+    # is then added by hand. 
     ignore_changes = [ami, user_data]
   }
 }

@@ -64,8 +64,7 @@ module "postgres_rds" {
   password = random_password.cmdb_master_password.result
   port     = "5432"
 
-  # Module v6 defaults this to true, which ignores `password` and has RDS create
-  # its own Secrets Manager secret that auto-rotates every 7 days.
+  # Module v6 defaults this to true, which ignores `password` set this to false to avoid that
   manage_master_user_password = false
 
   vpc_security_group_ids = [data.aws_security_group.data.id]
@@ -79,10 +78,9 @@ module "postgres_rds" {
   # Apply changes during terraform apply instead of the next maintenance window.
   apply_immediately = true
 
-  # Enhanced Monitoring - see example for details on how to create the role
-  # by yourself, in case you don't want to create it automatically
+  # Enhanced Monitoring for rds
   monitoring_interval    = "30"
-  monitoring_role_name   = "MyRDSMonitoringRole"
+  monitoring_role_name   = "${var.application}-${var.target_env}-rds-monitoring"
   create_monitoring_role = true
 
   tags = {
