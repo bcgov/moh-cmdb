@@ -51,10 +51,6 @@ variable "common_tags" {
   }
 }
 
-variable "health_check_path" {
-  default = "/"
-}
-
 variable "health_check_matcher" {
   description = "HTTP status codes the target group accepts as healthy"
   type        = string
@@ -89,6 +85,16 @@ variable "app_count" {
 
 variable "application" {
   description = "name of application being executed"
+}
+
+variable "root_redirect_priority" {
+  description = "Listener rule priority for the / redirect on the shared ALB. Must be unused on the listener and lower than app_forward_priority."
+  type        = number
+}
+
+variable "app_forward_priority" {
+  description = "Listener rule priority for forwarding this environment's host to the target group on the shared ALB. Must be unused on the listener."
+  type        = number
 }
 
 variable "alb_origin_id" {
