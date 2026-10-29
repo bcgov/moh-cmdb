@@ -24,6 +24,9 @@ module "api_gateway" {
       integration_uri    = data.aws_alb_listener.front_end.arn
       integration_type   = "HTTP_PROXY"
       integration_method = "ANY"
+      # HTTPS hostname: makes API Gateway use HTTPS to the ALB's 443 listener. Without
+      # it the integration falls back to HTTP and requests to the site fail.
+      tls_config = jsonencode({ server_name_to_verify = var.application_url })
     }
   }
   vpc_links = {
