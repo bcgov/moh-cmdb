@@ -23,9 +23,11 @@ resource "aws_alb_target_group" "app" {
     create_before_destroy = true
     ignore_changes        = [name]
   }
+  # Off: there is a single EC2 target, so stickiness does nothing except set the AWSALB
+  # cookie (flagged by ZAP for missing Secure/SameSite). Re-enable if more targets are added.
   stickiness {
-    type = "lb_cookie"
-
+    type    = "lb_cookie"
+    enabled = false
   }
 
   health_check {

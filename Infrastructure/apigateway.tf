@@ -27,6 +27,9 @@ module "api_gateway" {
       # HTTPS hostname: makes API Gateway use HTTPS to the ALB's 443 listener. Without
       # it the integration falls back to HTTP and requests to the site fail.
       tls_config = jsonencode({ server_name_to_verify = var.application_url })
+      # CloudFront calls the execute-api URL, so requests arrive with that hostname. The ALB
+      # routes by Host, so rewrite it to the name the CMDB listener rule matches (alb.tf).
+      request_parameters = jsonencode({ "overwrite:header.Host" = var.alb_origin_id })
     }
   }
   vpc_links = {
