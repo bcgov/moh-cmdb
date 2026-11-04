@@ -145,5 +145,5 @@ variable "timestamp" {
 variable "alert_emails" {
   description = "Email addresses that receive CMDB alerts from cmdb-topic"
   type        = list(string)
-  default     = ["Mid-tier.vic@cgi.com","hussein.kothari@cgi.com"]
+  default     = ["Mid-tier.vic@cgi.com"]
 }
