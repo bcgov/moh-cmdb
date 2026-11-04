@@ -142,8 +142,10 @@ variable "timestamp" {
   type = string
 }
 
+# TODO: restore the Mid-tier address before the final TEST deployment.
 variable "alert_emails" {
   description = "Email addresses that receive CMDB alerts from cmdb-topic"
   type        = list(string)
-  default     = ["Mid-tier.vic@cgi.com"]
+  default     = []
+  # default     = ["Mid-tier.vic@cgi.com"]
 }
