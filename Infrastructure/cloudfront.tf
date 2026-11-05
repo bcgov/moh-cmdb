@@ -150,5 +150,9 @@ resource "aws_cloudfront_distribution" "cmdb_distribution" {
 
   lifecycle {
     prevent_destroy = true
+    # The BC Gov LZA attaches its central WAF (FMManagedWebACLV2-BCGOV-LZA-Live-Central-WAF-
+    # cloudfront-*) through AWS Firewall Manager after creation. The platform team owns it, so
+    # do not let Terraform detach it.
+    ignore_changes = [web_acl_id]
   }
 }
