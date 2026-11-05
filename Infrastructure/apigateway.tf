@@ -1,21 +1,13 @@
-data "aws_acm_certificate" "cmdb_certificate" {
-  domain      = var.application_url
-  statuses    = ["ISSUED"]
-  most_recent = true
-}
-
 module "api_gateway" {
   source  = "terraform-aws-modules/apigateway-v2/aws"
   version = "2.2.2"
 
-  name                   = "${var.application}-http-api"
-  description            = "HTTP API Gateway"
-  protocol_type          = "HTTP"
+  name          = "${var.application}-http-api"
+  description   = "HTTP API Gateway"
+  protocol_type = "HTTP"
+  # No custom domain: users reach CMDB through CloudFront (cloudfront.tf), which calls the
+  # default execute-api URL. Must stay false; the module default (true) would create one.
   create_api_domain_name = false
-
-
-  domain_name                 = var.application_url
-  domain_name_certificate_arn = data.aws_acm_certificate.cmdb_certificate.arn
 
   integrations = {
     "ANY /{proxy+}" = {
