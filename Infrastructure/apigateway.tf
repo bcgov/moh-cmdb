@@ -1,21 +1,13 @@
-data "aws_acm_certificate" "cmdb_certificate" {
-  domain      = var.application_url
-  statuses    = ["ISSUED"]
-  most_recent = true
-}
-
 module "api_gateway" {
   source  = "terraform-aws-modules/apigateway-v2/aws"
   version = "2.2.2"
 
-  name                   = "${var.application}-http-api"
-  description            = "HTTP API Gateway"
-  protocol_type          = "HTTP"
+  name          = "${var.application}-http-api"
+  description   = "HTTP API Gateway"
+  protocol_type = "HTTP"
+  # No custom domain: users reach CMDB through CloudFront (cloudfront.tf), which calls the
+  # default execute-api URL. Must stay false; the module default (true) would create one.
   create_api_domain_name = false
-
-
-  domain_name                 = var.application_url
-  domain_name_certificate_arn = data.aws_acm_certificate.cmdb_certificate.arn
 
   integrations = {
     "ANY /{proxy+}" = {
@@ -24,6 +16,12 @@ module "api_gateway" {
       integration_uri    = data.aws_alb_listener.front_end.arn
       integration_type   = "HTTP_PROXY"
       integration_method = "ANY"
+      # HTTPS hostname: makes API Gateway use HTTPS to the ALB's 443 listener. Without
+      # it the integration falls back to HTTP and requests to the site fail.
+      tls_config = jsonencode({ server_name_to_verify = var.application_url })
+      # CloudFront calls the execute-api URL, so requests arrive with that hostname. The ALB
+      # routes by Host, so rewrite it to the name the CMDB listener rule matches (alb.tf).
+      request_parameters = jsonencode({ "overwrite:header.Host" = var.alb_origin_id })
     }
   }
   vpc_links = {

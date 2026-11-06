@@ -51,10 +51,6 @@ variable "common_tags" {
   }
 }
 
-variable "health_check_path" {
-  default = "/"
-}
-
 variable "health_check_matcher" {
   description = "HTTP status codes the target group accepts as healthy"
   type        = string
@@ -91,6 +87,16 @@ variable "application" {
   description = "name of application being executed"
 }
 
+variable "root_redirect_priority" {
+  description = "Listener rule priority for the / redirect on the shared ALB. Must be unused on the listener and lower than app_forward_priority."
+  type        = number
+}
+
+variable "app_forward_priority" {
+  description = "Listener rule priority for forwarding this environment's host to the target group on the shared ALB. Must be unused on the listener."
+  type        = number
+}
+
 variable "alb_origin_id" {
   description = "Domain name of OCIO Perimeter loadbalancer"
 }
@@ -107,6 +113,18 @@ variable "fam_console_idp_name" {
 variable "postgres_engine_version" {
   description = "RDS PostgreSQL engine version for this environment (e.g. 13.23-rds.20260514 or 17.11). Changing the major version upgrades the instance."
   type        = string
+}
+
+variable "tomcat_version" {
+  description = "Tomcat version user_data.sh installs; apache-tomcat-<version>.tar.gz must be in the tomcat S3 bucket"
+  type        = string
+  default     = "10.1.60"
+}
+
+variable "cmdbuild_war_file" {
+  description = "CMDBuild WAR in the tomcat S3 bucket that user_data.sh deploys"
+  type        = string
+  default     = "cmdbuild-4.2.0.war"
 }
 
 variable "ec2_snapshot_retention_count" {
@@ -127,7 +145,8 @@ variable "timestamp" {
 variable "alert_emails" {
   description = "Email addresses that receive CMDB alerts from cmdb-topic"
   type        = list(string)
-  default     = ["hussein.kothari@cgi.com"]
+  default     = []
+  # default     = ["Mid-tier.vic@cgi.com"]
 }
 
 variable "patch_window_schedule" {
