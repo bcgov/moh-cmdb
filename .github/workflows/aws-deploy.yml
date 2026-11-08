@@ -11,9 +11,9 @@ on:
         description: 'Version Number'
         required: false
       plan_only:
-        description: 'Run Terraform plan only (skip apply)'
+        description: 'Run Terraform plan only (skip apply). Untick to apply.'
         type: boolean
-        default: false
+        default: true
       unlock_id:
         description: 'State lock ID to force-unlock before running (leave blank unless a stale lock blocks the run)'
         type: string
