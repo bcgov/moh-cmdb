@@ -18,5 +18,12 @@ generate "prod_tfvars" {
   postgres_engine_version = "13.23-rds.20260514"
   # Prod installs each patch a week after test does.
   patch_approve_after_days = 14
+  # Scan only (no installs, no reboots) until CMDBuild is deployed and answers on
+  # /cmdbuildProd/; the post-patch health check would fail every night before that.
+  # Then remove this line so prod installs patches nightly.
+  patch_operation = "Scan"
+  # Receives patching-failure emails and CloudWatch alarms. Temporary; replace with the
+  # Mid-tier address. Each address must confirm the SNS subscription email.
+  alert_emails = ["ian.1.liu@gov.bc.ca"]
   EOF
 }

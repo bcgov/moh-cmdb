@@ -175,5 +175,5 @@ variable "patch_operation" {
 variable "tomcat_service_name" {
   description = "systemd service the patching hooks stop and start (installed by user_data.sh)"
   type        = string
-  default     = "tomcat10"
+  default     = "tomcat"
 }

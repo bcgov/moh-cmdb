@@ -131,9 +131,11 @@ resource "aws_ssm_document" "post_patch" {
       inputs = {
         timeoutSeconds = "900"
         runCommand = [templatefile("patching/post-patch.sh", {
-          tomcat_service    = var.tomcat_service_name
-          app_port          = var.app_port
-          health_check_path = var.health_check_path
+          tomcat_service = var.tomcat_service_name
+          app_port       = var.app_port
+          # Same URL path as the ALB target group health check (alb.tf), so the post-patch
+          # check proves CMDBuild itself is up, not just Tomcat.
+          health_check_path = "/${local.cmdbuild_webapp}/"
         })]
       }
     }]

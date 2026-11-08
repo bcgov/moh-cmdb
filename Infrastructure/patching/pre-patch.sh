@@ -21,7 +21,8 @@ if [ "$age_hours" -ge ${max_snapshot_age_hours} ]; then
 fi
 echo "Pre-patch snapshot started at $latest ($age_hours hours ago)."
 
-# Stop Tomcat so it isn't running while Java and Tomcat packages are replaced.
+# Stop Tomcat so it isn't running while Java and other packages are replaced.
+# (Tomcat itself is a tarball in /u01/tomcat and is not patched here.)
 # The post-patch hook starts it again, even if the install fails.
 systemctl stop ${tomcat_service}
 echo "Stopped ${tomcat_service}."
