@@ -220,6 +220,6 @@ resource "aws_cloudwatch_event_target" "patching_failed_email" {
       status   = "$.detail.status"
       time     = "$.time"
     }
-    input_template = "\"CMDB ${var.target_env} nightly patching ended with status <status> on <instance> at <time> UTC (command <command>). The output is in the CloudWatch Logs group ${aws_cloudwatch_log_group.patching.name}.\""
+    input_template = "\"[${upper(var.target_env)}] CMDB nightly patching ended with status <status> on <instance> at <time> UTC (command <command>). The output is in the CloudWatch Logs group ${aws_cloudwatch_log_group.patching.name}.\""
   }
 }
