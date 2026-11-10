@@ -190,6 +190,33 @@ resource "aws_ssm_maintenance_window_task" "patch" {
   }
 }
 
+# Silence the alarm emails that a normal patch night causes (Tomcat stopped, possible
+# reboot). The alarms continue to evaluate during the mute period. If an alarm is still
+# in ALARM when the mute ends, CloudWatch sends the email then. The "patching failed"
+# email below is not muted. We are only muting the unhealthy-host and status-check
+# alarms for this maintenance window; CPU, RDS and the other alarms remain active.
+resource "aws_cloudwatch_alarm_mute_rule" "patch_night" {
+  name        = "${var.application}-${var.target_env}-patch-night"
+  description = "[${upper(var.target_env)}] Mute the unhealthy-host and status-check alarms during nightly patching"
+
+  rule {
+    schedule {
+      expression = var.patch_mute_schedule
+      duration   = var.patch_mute_duration
+      timezone   = "America/Vancouver"
+    }
+  }
+
+  mute_targets {
+    alarm_names = [
+      aws_cloudwatch_metric_alarm.alb_unhealthy_hosts.alarm_name,
+      aws_cloudwatch_metric_alarm.ec2_status_check_failed.alarm_name,
+    ]
+  }
+
+  tags = local.common_tags
+}
+
 # Email the team when a patch run on this instance fails, times out or is cancelled.
 # The topic policy that lets EventBridge publish is in sns.tf.
 resource "aws_cloudwatch_event_rule" "patching_failed" {

@@ -155,6 +155,18 @@ variable "patch_window_schedule" {
   default     = "cron(0 2 ? * * *)"
 }
 
+variable "patch_mute_schedule" {
+  description = "When the patch-night alarm mute starts, in America/Vancouver time. CloudWatch cron has 5 fields (not the 6 of patch_window_schedule); keep it at the same time as the window"
+  type        = string
+  default     = "cron(0 2 * * *)"
+}
+
+variable "patch_mute_duration" {
+  description = "How long the patch-night alarm mute lasts (ISO 8601, e.g. PT1H). It covers stopping Tomcat, patching, a reboot and CMDBuild starting again"
+  type        = string
+  default     = "PT1H"
+}
+
 variable "patch_approve_after_days" {
   description = "Days after release before a security update or bugfix is installed"
   type        = number
