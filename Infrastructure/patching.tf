@@ -89,6 +89,12 @@ resource "aws_cloudwatch_log_group" "patching" {
   name              = "/cmdb/${var.target_env}/patching"
   retention_in_days = 30
   tags              = local.common_tags
+
+  # The landing zone attaches its own KMS key to log groups after they are created.
+  # Leave that key alone instead of removing it on every apply.
+  lifecycle {
+    ignore_changes = [kms_key_id]
+  }
 }
 
 resource "aws_ssm_document" "pre_patch" {
