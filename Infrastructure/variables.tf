@@ -168,9 +168,15 @@ variable "patch_mute_duration" {
 }
 
 variable "patch_approve_after_days" {
-  description = "Days after release before a security update or bugfix is installed"
+  description = "Days after release before a bugfix is installed"
   type        = number
   default     = 7
+}
+
+variable "patch_security_approve_after_days" {
+  description = "Days after release before a Critical or Important security update is installed. Bugfixes use patch_approve_after_days"
+  type        = number
+  default     = 3
 }
 
 variable "patch_operation" {

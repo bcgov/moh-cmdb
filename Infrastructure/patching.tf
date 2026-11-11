@@ -31,7 +31,7 @@ resource "aws_ssm_patch_baseline" "cmdb_al2023" {
   operating_system = "AMAZON_LINUX_2023"
 
   approval_rule {
-    approve_after_days = var.patch_approve_after_days
+    approve_after_days = var.patch_security_approve_after_days
     compliance_level   = "HIGH"
 
     patch_filter {

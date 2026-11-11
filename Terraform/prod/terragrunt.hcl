@@ -19,8 +19,10 @@ generate "prod_tfvars" {
   # Stays on 13 until the data migration is done, then change to "17.11" to upgrade.
   postgres_engine_version = "13.23-rds.20260514"
 
-  # Prod installs each patch a week after test does.
-  patch_approve_after_days = 14
+  # Prod installs each patch a week after test does. Bugfixes wait 14 days; Critical and
+  # Important security updates wait 7.
+  patch_approve_after_days          = 14
+  patch_security_approve_after_days = 7
 
   # Scan only (no installs, no reboots) until CMDBuild is deployed and answers on
   # /cmdbuildProd/; the post-patch health check would fail every night before that.

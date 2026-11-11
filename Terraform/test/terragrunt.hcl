@@ -19,7 +19,10 @@ generate "test_tfvars" {
   # Upgraded from 13.23-rds.20260514 to 17.11 (major version upgrade).
   postgres_engine_version = "17.11"
 
-  patch_approve_after_days = 7
+  # Bugfixes wait 7 days; Critical and Important security updates wait 3.
+  patch_approve_after_days          = 7
+  patch_security_approve_after_days = 3
+
   # Test installs patches nightly (the variable's default is "Install"). To go back to
   # report-only (no installs, no reboots), add: patch_operation = "Scan"
 
