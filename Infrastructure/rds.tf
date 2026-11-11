@@ -53,7 +53,7 @@ module "postgres_rds" {
   engine               = "postgres"
   engine_version       = var.postgres_engine_version
   instance_class       = "db.t3.micro"
-  allocated_storage    = 10
+  allocated_storage    = var.db_allocated_storage
 
   # Needed for Terraform to apply a major version change. It only permits the
   # upgrade; the upgrade itself happens when postgres_engine_version changes.

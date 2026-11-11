@@ -115,6 +115,12 @@ variable "postgres_engine_version" {
   type        = string
 }
 
+variable "db_allocated_storage" {
+  description = "RDS storage in GiB for this environment. Can be increased later but never decreased."
+  type        = number
+  default     = 10
+}
+
 variable "tomcat_version" {
   description = "Tomcat version user_data.sh installs; apache-tomcat-<version>.tar.gz must be in the tomcat S3 bucket"
   type        = string

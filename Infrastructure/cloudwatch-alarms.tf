@@ -69,8 +69,8 @@ resource "aws_cloudwatch_metric_alarm" "rds_free_storage_space" {
   namespace           = "AWS/RDS"
   period              = 300
   statistic           = "Minimum"
-  threshold           = 2147483648 # 2 GiB in bytes (20% of the 10 GiB allocated)
-  alarm_description   = "[${upper(var.target_env)}] Alarm when RDS free storage space drops below 2 GiB"
+  threshold           = 2147483648 # 2 GiB in bytes (20% of a 10 GiB disk, 10% of PROD's 20 GiB)
+  alarm_description   = "Alarm when RDS free storage space drops below 2 GiB"
 
   alarm_actions = [
     aws_sns_topic.cmdb-sns.arn

@@ -18,6 +18,7 @@ generate "prod_tfvars" {
 
   # Stays on 13 until the data migration is done, then change to "17.11" to upgrade.
   postgres_engine_version = "13.23-rds.20260514"
+  db_allocated_storage = 20
 
   # Prod installs each patch a week after test does. Bugfixes wait 14 days; Critical and
   # Important security updates wait 7.
@@ -32,5 +33,6 @@ generate "prod_tfvars" {
   # Receives patching-failure emails and CloudWatch alarms. Temporary; replace with the
   # Mid-tier address. Each address must confirm the SNS subscription email.
   alert_emails = ["ian.1.liu@gov.bc.ca"]
+
   EOF
 }
