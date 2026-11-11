@@ -6,9 +6,10 @@
 #      then stops Tomcat. If the hook fails, nothing is installed or rebooted,
 #   3. installs the approved patches,
 #   4. reboots if anything was installed (Tomcat starts again on boot),
-#   5. runs the post-patch hook: starts Tomcat if needed and checks CMDB answers.
-# Steps 2-4 are skipped on nights with nothing to install. A failed run is emailed
-# through cmdb-topic (sns.tf).
+#   5. runs the post-patch (on-exit) hook: starts Tomcat if needed and checks CMDB answers.
+# Steps 2-4 are skipped on nights with nothing to install, but step 5 still runs on every
+# Install night, so the health check happens even when nothing was patched. A failed run
+# is emailed through cmdb-topic (sns.tf).
 
 locals {
   patch_group = "${var.application}-${var.target_env}"
