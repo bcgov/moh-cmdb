@@ -16,5 +16,6 @@ generate "prod_tfvars" {
   app_forward_priority = 20
   # Stays on 13 until the data migration is done, then change to "17.11" to upgrade.
   postgres_engine_version = "13.23-rds.20260514"
+  db_allocated_storage = 20
   EOF
 }
