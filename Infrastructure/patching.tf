@@ -143,6 +143,9 @@ resource "aws_ssm_document" "post_patch" {
           # Same URL path as the ALB target group health check (alb.tf), so the post-patch
           # check proves CMDBuild itself is up, not just Tomcat.
           health_check_path = "/${local.cmdbuild_webapp}/"
+          # CMDBuild's own boot status API; answers {"success":true,"status":"READY"} once the
+          # application has finished starting. The post-patch check needs both to pass.
+          status_path = "/${local.cmdbuild_webapp}/services/rest/v3/boot/status"
         })]
       }
     }]
