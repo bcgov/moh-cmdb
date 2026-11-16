@@ -148,10 +148,56 @@ variable "timestamp" {
   type = string
 }
 
-# TODO: restore the Mid-tier address before the final TEST deployment.
 variable "alert_emails" {
   description = "Email addresses that receive CMDB alerts from cmdb-topic"
   type        = list(string)
   default     = []
   # default     = ["Mid-tier.vic@cgi.com"]
+}
+
+variable "patch_window_schedule" {
+  description = "When the nightly patching window opens, in America/Vancouver time"
+  type        = string
+  default     = "cron(0 2 ? * * *)"
+}
+
+variable "patch_mute_schedule" {
+  description = "When the patch-night alarm mute starts, in America/Vancouver time. CloudWatch cron has 5 fields (not the 6 of patch_window_schedule); keep it at the same time as the window"
+  type        = string
+  default     = "cron(0 2 * * *)"
+}
+
+variable "patch_mute_duration" {
+  description = "How long the patch-night alarm mute lasts (ISO 8601, e.g. PT1H). It covers stopping Tomcat, patching, a reboot and CMDBuild starting again"
+  type        = string
+  default     = "PT1H"
+}
+
+variable "patch_approve_after_days" {
+  description = "Days after release before a bugfix is installed"
+  type        = number
+  default     = 7
+}
+
+variable "patch_security_approve_after_days" {
+  description = "Days after release before a Critical or Important security update is installed. Bugfixes use patch_approve_after_days"
+  type        = number
+  default     = 3
+}
+
+variable "patch_operation" {
+  description = "Nightly patch run: Scan only reports missing patches; Install installs them and reboots if anything was installed"
+  type        = string
+  default     = "Install"
+
+  validation {
+    condition     = contains(["Scan", "Install"], var.patch_operation)
+    error_message = "patch_operation must be Scan or Install."
+  }
+}
+
+variable "tomcat_service_name" {
+  description = "systemd service the patching hooks stop and start (installed by user_data.sh)"
+  type        = string
+  default     = "tomcat"
 }

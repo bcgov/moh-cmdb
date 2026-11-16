@@ -36,11 +36,15 @@ resource "aws_instance" "cmdb" {
     "Name" = "${var.application}-${var.target_env}"
     # Picked up by the daily snapshot policy in snapshots.tf
     "SnapshotPolicy" = "${var.application}-${var.target_env}-daily"
+    # Selects the patch baseline in patching.tf
+    "PatchGroup" = "${var.application}-${var.target_env}"
   }
 
   lifecycle {
-    # user_data.sh sets up Tomcat and CMDBuild at first boot, and CMDBuild's config
-    # is then added by hand. 
+    # The app is installed by hand on this box; without this a new AL2023 AMI
+    # release would replace the instance and wipe it. It also means edits to
+    # user_data.sh only reach a new instance.
+    # user_data.sh sets up Tomcat and CMDBuild at first boot.
     ignore_changes = [ami, user_data]
   }
 }
