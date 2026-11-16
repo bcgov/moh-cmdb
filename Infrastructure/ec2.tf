@@ -25,6 +25,7 @@ resource "aws_instance" "cmdb" {
     tomcat_version  = var.tomcat_version
     cmdbuild_war    = var.cmdbuild_war_file
     cmdbuild_webapp = local.cmdbuild_webapp
+    catalina_opts   = var.catalina_opts
   })
 
   ebs_block_device {

@@ -127,6 +127,12 @@ variable "tomcat_version" {
   default     = "10.1.60"
 }
 
+variable "catalina_opts" {
+  description = "Extra Java options for Tomcat, written to bin/setenv.sh at first boot. Empty means Java defaults"
+  type        = string
+  default     = ""
+}
+
 variable "cmdbuild_war_file" {
   description = "CMDBuild WAR in the tomcat S3 bucket that user_data.sh deploys"
   type        = string
