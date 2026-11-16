@@ -33,6 +33,12 @@ export CATALINA_BASE=/u01/tomcat
 echo "Tomcat runs as a service: sudo systemctl start|stop|restart tomcat. Don't use bin/startup.sh or bin/shutdown.sh."
 EOF
 
+# Extra Java options (e.g. heap size), only when catalina_opts is set. Tomcat's
+# startup.sh reads bin/setenv.sh. Written before the chown below so tomcat owns it.
+%{ if catalina_opts != "" ~}
+echo 'export CATALINA_OPTS="$CATALINA_OPTS ${catalina_opts}"' > /u01/tomcat/bin/setenv.sh
+%{ endif ~}
+
 chown -R tomcat:tomcat /u01/tomcat
 # The tomcat group can edit the install too, and new files keep the group. Admins
 # join it by hand ("sudo usermod -aG tomcat ssm-user"): the SSM agent only creates

@@ -20,6 +20,10 @@ generate "prod_tfvars" {
   postgres_engine_version = "13.23-rds.20260514"
   db_allocated_storage = 20
 
+  # Java heap, same as the ASEA PROD server (2 GB at start, 4 GB maximum). Written to
+  # bin/setenv.sh at first boot only, so it is ready before the instance is created.
+  catalina_opts = "-Xms2048m -Xmx4096m"
+
   # Prod installs each patch a week after test does. Bugfixes wait 14 days; Critical and
   # Important security updates wait 7.
   patch_approve_after_days          = 14
