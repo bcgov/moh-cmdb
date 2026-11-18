@@ -41,6 +41,9 @@ resource "aws_instance" "cmdb" {
     "PatchGroup" = "${var.application}-${var.target_env}"
   }
 
+  # user_data.sh downloads from the tomcat bucket at first boot, so the read policy must exist first.
+  depends_on = [aws_iam_role_policy.cmdb_ec2_tomcat_bucket]
+
   lifecycle {
     # The app is installed by hand on this box; without this a new AL2023 AMI
     # release would replace the instance and wipe it. It also means edits to
