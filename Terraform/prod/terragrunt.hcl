@@ -16,8 +16,8 @@ generate "prod_tfvars" {
   root_redirect_priority = 10
   app_forward_priority   = 20
 
-  # Stays on 13 until the data migration is done, then change to "17.11" to upgrade.
-  postgres_engine_version = "13.23-rds.20260514"
+  # Upgraded from 13.23-rds.20260514 to 17.11 (major version upgrade).
+  postgres_engine_version = "17.11"
   db_allocated_storage = 20
 
   # Java heap, same as the ASEA PROD server (2 GB at start, 4 GB maximum). Written to
