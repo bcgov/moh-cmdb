@@ -4,7 +4,6 @@ terraform {
  locals {
     project             = get_env("LICENSE_PLATE")
     environment         = reverse(split("/", get_terragrunt_dir()))[0]
-    app_image           = get_env("app_image", "")
     timestamp           = get_env("TF_VAR_TIMESTAMP")
  }
 
@@ -30,7 +29,6 @@ generate "tfvars" {
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
-    app_image  = "${local.app_image}"
     target_env = "${local.environment}"
     application = "cmdb"
 EOF

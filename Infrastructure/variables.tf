@@ -11,37 +11,10 @@ variable "aws_region" {
 #  description = "The AWS OCIO LicensePlate"
 #}
 
-variable "ecs_task_execution_role_name" {
-  description = "ECS task execution role name"
-  default     = "cmdb_EcsTaskExecutionRole"
-}
-
-variable "fargate_cpu" {
-  description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = 512
-}
-
-variable "fargate_memory" {
-  description = "Fargate instance memory to provision (in MiB)"
-  default     = 1024
-}
-
 variable "cmdb_cluster_name" {
   description = "Name for the FAM database cluster -- must be unique"
   type        = string
   default     = "cmdb-cluster"
-}
-
-variable "cluster_name" {
-  description = "Name for ECS cluster (with underscore)"
-  type        = string
-  default     = "cmdb_cluster"
-}
-
-variable "ecs_service_name" {
-  description = "Name for the ECS service name"
-  type        = string
-  default     = "cmdb-dev-service"
 }
 
 variable "common_tags" {
@@ -70,12 +43,6 @@ variable "acl_value" {
 variable "app_port" {
   description = "Port exposed by the docker image to redirect traffic to"
   default     = 8080
-}
-
-variable "app_image" {
-  description = "Docker image to run in the ECS cluster. _Note_: there is a blank default value, which will cause service and task resource creation to be supressed unless an image is specified."
-  type        = string
-  default     = ""
 }
 
 variable "app_count" {
