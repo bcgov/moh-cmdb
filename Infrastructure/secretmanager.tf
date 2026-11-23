@@ -1,5 +1,7 @@
+# Backup secret can also be found at the Mid-Tier KeePass.
 resource "aws_secretsmanager_secret" "pg_user" {
-  name = "CMDB_PG_USER"
+  name        = "CMDB_PG_USER"
+  description = "Application database credential and connection details. Manual backup only; not read by Tomcat or Terraform."
 }
 
 resource "aws_secretsmanager_secret_version" "rds_credentials" {
