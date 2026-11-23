@@ -26,8 +26,8 @@ generate "test_tfvars" {
   # Test installs patches nightly (the variable's default is "Install"). To go back to
   # report-only (no installs, no reboots), add: patch_operation = "Scan"
 
-  # Receives patching-failure emails and CloudWatch alarms. Temporary; replace with the
-  # Mid-tier address. Each address must confirm the SNS subscription email.
-  alert_emails = ["ian.1.liu@gov.bc.ca"]
+  # Receives patching-failure emails and CloudWatch alarms. Each address must confirm the
+  # SNS subscription email.
+  alert_emails = ["Mid-tier.vic@cgi.com"]
   EOF
 }
