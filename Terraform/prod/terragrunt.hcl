@@ -29,10 +29,9 @@ generate "prod_tfvars" {
   patch_approve_after_days          = 14
   patch_security_approve_after_days = 7
 
-  # Scan only (no installs, no reboots) until CMDBuild is deployed and answers on
-  # /cmdbuildProd/; the post-patch health check would fail every night before that.
-  # Then remove this line so prod installs patches nightly.
-  patch_operation = "Scan"
+  # Prod installs patches nightly (the variable's default is "Install"). CMDBuild answers on
+  # /cmdbuildProd/ since the LZA cutover. To go back to report-only (no installs, no
+  # reboots), add: patch_operation = "Scan"
 
   # Receives patching-failure emails and CloudWatch alarms. Temporary; replace with the
   # Mid-tier address. Each address must confirm the SNS subscription email.
