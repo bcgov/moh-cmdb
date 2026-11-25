@@ -36,9 +36,10 @@ module "postgres_rds" {
   instance_class       = "db.t3.micro"
   allocated_storage    = var.db_allocated_storage
 
-  # Needed for Terraform to apply a major version change. It only permits the
-  # upgrade; the upgrade itself happens when postgres_engine_version changes.
-  allow_major_version_upgrade = true
+  # Off, so an accidental edit to a different major version fails instead of upgrading.
+  # For a planned major upgrade (for example PG17 to 18), set this to true for that apply only,
+  # then back to false. The upgrade itself happens when postgres_engine_version changes.
+  allow_major_version_upgrade = false
 
   db_name  = var.application
   username = var.cmdb_master_username
@@ -56,8 +57,9 @@ module "postgres_rds" {
   # Automated backups with point-in-time restore for the last 7 days.
   backup_retention_period = 7
 
-  # Apply changes during terraform apply instead of the next maintenance window.
-  apply_immediately = true
+  # true: apply changes during terraform apply. false: wait for the next maintenance window.
+  # Set per environment with db_apply_immediately.
+  apply_immediately = var.db_apply_immediately
 
   # Enhanced Monitoring for rds
   monitoring_interval    = "30"

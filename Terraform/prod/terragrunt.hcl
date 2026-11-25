@@ -20,6 +20,10 @@ generate "prod_tfvars" {
   postgres_engine_version = "17.11"
   db_allocated_storage = 20
 
+  # RDS changes wait for the maintenance window (Mon:00:00-Mon:03:00, UTC) instead of being
+  # applied during terraform apply. To apply one straight away, set this to true for that apply.
+  db_apply_immediately = false
+
   # Java heap, same as the ASEA PROD server (2 GB at start, 4 GB maximum). Written to
   # bin/setenv.sh at first boot only, so it is ready before the instance is created.
   catalina_opts = "-Xms2048m -Xmx4096m"
@@ -33,9 +37,9 @@ generate "prod_tfvars" {
   # /cmdbuildProd/ since the LZA cutover. To go back to report-only (no installs, no
   # reboots), add: patch_operation = "Scan"
 
-  # Receives patching-failure emails and CloudWatch alarms. Temporary; replace with the
-  # Mid-tier address. Each address must confirm the SNS subscription email.
-  alert_emails = ["ian.1.liu@gov.bc.ca"]
+  # Receives patching-failure emails and CloudWatch alarms. Each address must confirm the
+  # SNS subscription email.
+  alert_emails = ["Mid-tier.vic@cgi.com"]
 
   EOF
 }
