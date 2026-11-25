@@ -1,7 +1,28 @@
 # Developer notes
 
-Things to know about this project and its code that are not obvious from reading it.
+* Findings and cleanup notes. Things to know about this project and its code that are not obvious from reading it.
 (Update this file or remove the item that is no longer valid or has been cleaned up)
+* How the project runs on AWS and how it is deployed is in
+[infrastructure-and-deployment.md](infrastructure-and-deployment.md).
+* [CMDBuild going forward (4.3 and later)](component-upgrade-versions.md#note-how-to-run-cmdbuild-going-forward-43-and-later)
+
+**Terms:** ASEA = the old AWS account that ran previous CMDB. LZA = the new AWS landing zone this project now runs in.
+
+---
+
+## Past folder structure (possible leftovers, cleanup needed)
+
+These folders pre-date the AWS migration. None of them is referenced by `Infrastructure/`, `Terraform/` or the
+GitHub workflows. They may be leftovers and need a cleanup/document migration review before anything is removed.
+
+| Path | What it contains |
+|---|---|
+| `cmdb/Release1/` | SQL scripts for the initial database load: lookup values, storage and software conversions, survey question inserts. `readme.txt` lists the order to run them. |
+| `cmdb/Release2/` | SQL views and queries: RADAR data, questionnaire data, software-technology capability, and Keycloak application and contact lists. `WIP.sql` is a copy of `keycloak_apps.sql`. |
+| `cmdb/Script Files/` | `CMDB_Global.sql` (application and server report) and two folders, `Cloud_Capabilities_RADAR` and `Cloud_Organizations`. |
+| `cmdb/Production Configuration/` | A 2023 copy of the old production Tomcat and CMDBuild config: LDAP settings, IDIR certificate files, `permanent.jks`, `setenv.sh`, and data-bus job files in `conf/cmdbuildProd/bus/`. See the Authentication section below. |
+| `cmdb/Dockerfile`, `cmdb/database.conf`, `cmdb/README.md` | A Docker build for CMDBuild. The README says it is blocked by a broken base image. |
+
 
 ## Authentication: OAuth only, LDAP/JKS setup is leftover
 
