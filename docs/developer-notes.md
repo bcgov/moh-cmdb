@@ -4,6 +4,7 @@
 (Update this file or remove the item that is no longer valid or has been cleaned up)
 * How the project runs on AWS and how it is deployed is in
 [infrastructure-and-deployment.md](infrastructure-and-deployment.md).
+* [CMDBuild going forward (4.3 and later)](component-upgrade-versions.md#note-how-to-run-cmdbuild-going-forward-43-and-later)
 
 **Terms:** ASEA = the old AWS account that ran previous CMDB. LZA = the new AWS landing zone this project now runs in.
 
