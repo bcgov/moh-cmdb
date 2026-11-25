@@ -82,6 +82,12 @@ variable "postgres_engine_version" {
   type        = string
 }
 
+variable "db_apply_immediately" {
+  description = "true applies RDS changes during terraform apply; false waits for the next maintenance window"
+  type        = bool
+  default     = true
+}
+
 variable "db_allocated_storage" {
   description = "RDS storage in GiB for this environment. Can be increased later but never decreased."
   type        = number
