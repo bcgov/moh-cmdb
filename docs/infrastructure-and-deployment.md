@@ -15,6 +15,8 @@ Its child pages cover:
 - ZAP scan
 - LZA CloudFront and load balancer Terraform setup
 - Patching, monitoring and alerts (developer guide)
+  
+- [CMDB - Restoring EC2 Instance from Backup](https://hlth.atlassian.net/wiki/spaces/HA/pages/1176043613/CMDB+-+Restoring+EC2+Instance+from+Backup)
 
 This repo holds the Terraform behind those pages. Start here for the shape, go to Confluence for the detail.
 
@@ -171,7 +173,7 @@ starts it from the Actions tab (`workflow_dispatch`). Nothing deploys on push or
 Runs for the same environment queue one at a time. The workflow signs in to AWS with an OIDC role
 (`TERRAFORM_DEPLOY_ROLE_ARN`).
 
-### Steps for a change
+### Steps for a change (deployment)
 
 1. Create a feature branch from `main`.
 2. Make the change in `Infrastructure/`, or in the `terragrunt.hcl` of `Terraform/test/` or `Terraform/prod/` for environment values.
