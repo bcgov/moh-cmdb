@@ -9,7 +9,25 @@ generate "test_tfvars" {
   contents          = <<-EOF
   app_port = 8080
   fam_console_idp_name = "TEST-IDIR"
-  alb_origin_id = "cmdb.ynr9ed-test.nimbus.cloud.gov.bc.ca"
+  alb_origin_id = "cmdbt.hlth.gov.bc.ca"
   application_url = "cmdbt.hlth.gov.bc.ca"
+
+  # ALB listener rule priorities; the redirect must be lower than the forward rule.
+  root_redirect_priority = 10
+  app_forward_priority = 20
+
+  # Upgraded from 13.23-rds.20260514 to 17.11 (major version upgrade).
+  postgres_engine_version = "17.11"
+
+  # Bugfixes wait 7 days; Critical and Important security updates wait 3.
+  patch_approve_after_days          = 7
+  patch_security_approve_after_days = 3
+
+  # Test installs patches nightly (the variable's default is "Install"). To go back to
+  # report-only (no installs, no reboots), add: patch_operation = "Scan"
+
+  # Receives patching-failure emails and CloudWatch alarms. Each address must confirm the
+  # SNS subscription email.
+  alert_emails = ["Mid-tier.vic@cgi.com"]
   EOF
 }

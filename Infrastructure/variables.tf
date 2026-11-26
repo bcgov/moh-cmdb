@@ -11,37 +11,10 @@ variable "aws_region" {
 #  description = "The AWS OCIO LicensePlate"
 #}
 
-variable "ecs_task_execution_role_name" {
-  description = "ECS task execution role name"
-  default     = "cmdb_EcsTaskExecutionRole"
-}
-
-variable "fargate_cpu" {
-  description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = 512
-}
-
-variable "fargate_memory" {
-  description = "Fargate instance memory to provision (in MiB)"
-  default     = 1024
-}
-
 variable "cmdb_cluster_name" {
   description = "Name for the FAM database cluster -- must be unique"
   type        = string
   default     = "cmdb-cluster"
-}
-
-variable "cluster_name" {
-  description = "Name for ECS cluster (with underscore)"
-  type        = string
-  default     = "cmdb_cluster"
-}
-
-variable "ecs_service_name" {
-  description = "Name for the ECS service name"
-  type        = string
-  default     = "cmdb-dev-service"
 }
 
 variable "common_tags" {
@@ -51,8 +24,10 @@ variable "common_tags" {
   }
 }
 
-variable "health_check_path" {
-  default = "/"
+variable "health_check_matcher" {
+  description = "HTTP status codes the target group accepts as healthy"
+  type        = string
+  default     = "200-399"
 }
 
 variable "alb_name" {
@@ -70,12 +45,6 @@ variable "app_port" {
   default     = 8080
 }
 
-variable "app_image" {
-  description = "Docker image to run in the ECS cluster. _Note_: there is a blank default value, which will cause service and task resource creation to be supressed unless an image is specified."
-  type        = string
-  default     = ""
-}
-
 variable "app_count" {
   description = "Number of docker containers to run"
   default     = 1
@@ -83,6 +52,16 @@ variable "app_count" {
 
 variable "application" {
   description = "name of application being executed"
+}
+
+variable "root_redirect_priority" {
+  description = "Listener rule priority for the / redirect on the shared ALB. Must be unused on the listener and lower than app_forward_priority."
+  type        = number
+}
+
+variable "app_forward_priority" {
+  description = "Listener rule priority for forwarding this environment's host to the target group on the shared ALB. Must be unused on the listener."
+  type        = number
 }
 
 variable "alb_origin_id" {
@@ -98,6 +77,47 @@ variable "fam_console_idp_name" {
   type        = string
 }
 
+variable "postgres_engine_version" {
+  description = "RDS PostgreSQL engine version for this environment (e.g. 13.23-rds.20260514 or 17.11). Changing the major version upgrades the instance."
+  type        = string
+}
+
+variable "db_apply_immediately" {
+  description = "true applies RDS changes during terraform apply; false waits for the next maintenance window"
+  type        = bool
+  default     = true
+}
+
+variable "db_allocated_storage" {
+  description = "RDS storage in GiB for this environment. Can be increased later but never decreased."
+  type        = number
+  default     = 10
+}
+
+variable "tomcat_version" {
+  description = "Tomcat version user_data.sh installs; apache-tomcat-<version>.tar.gz must be in the tomcat S3 bucket"
+  type        = string
+  default     = "10.1.60"
+}
+
+variable "catalina_opts" {
+  description = "Extra Java options for Tomcat, written to bin/setenv.sh at first boot. Empty means Java defaults"
+  type        = string
+  default     = ""
+}
+
+variable "cmdbuild_war_file" {
+  description = "CMDBuild WAR in the tomcat S3 bucket that user_data.sh deploys"
+  type        = string
+  default     = "cmdbuild-4.2.0.war"
+}
+
+variable "ec2_snapshot_retention_count" {
+  description = "Number of daily EBS snapshots of the EC2 instance to keep (one per day)"
+  type        = number
+  default     = 7
+}
+
 variable "db_instance_identifier" {
   description = "Identifies the cluster ID of aurora_rds_v2"
   default     = "cmdb-cluster"
@@ -105,4 +125,58 @@ variable "db_instance_identifier" {
 
 variable "timestamp" {
   type = string
+}
+
+variable "alert_emails" {
+  description = "Email addresses that receive CMDB alerts from cmdb-topic"
+  type        = list(string)
+  default     = []
+  # default     = ["Mid-tier.vic@cgi.com"]
+}
+
+variable "patch_window_schedule" {
+  description = "When the nightly patching window opens, in America/Vancouver time"
+  type        = string
+  default     = "cron(0 2 ? * * *)"
+}
+
+variable "patch_mute_schedule" {
+  description = "When the patch-night alarm mute starts, in America/Vancouver time. CloudWatch cron has 5 fields (not the 6 of patch_window_schedule); keep it at the same time as the window"
+  type        = string
+  default     = "cron(0 2 * * *)"
+}
+
+variable "patch_mute_duration" {
+  description = "How long the patch-night alarm mute lasts (ISO 8601, e.g. PT1H). It covers stopping Tomcat, patching, a reboot and CMDBuild starting again"
+  type        = string
+  default     = "PT1H"
+}
+
+variable "patch_approve_after_days" {
+  description = "Days after release before a bugfix is installed"
+  type        = number
+  default     = 7
+}
+
+variable "patch_security_approve_after_days" {
+  description = "Days after release before a Critical or Important security update is installed. Bugfixes use patch_approve_after_days"
+  type        = number
+  default     = 3
+}
+
+variable "patch_operation" {
+  description = "Nightly patch run: Scan only reports missing patches; Install installs them and reboots if anything was installed"
+  type        = string
+  default     = "Install"
+
+  validation {
+    condition     = contains(["Scan", "Install"], var.patch_operation)
+    error_message = "patch_operation must be Scan or Install."
+  }
+}
+
+variable "tomcat_service_name" {
+  description = "systemd service the patching hooks stop and start (installed by user_data.sh)"
+  type        = string
+  default     = "tomcat"
 }

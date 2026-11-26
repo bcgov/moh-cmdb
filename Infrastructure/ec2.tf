@@ -1,27 +1,54 @@
 data "aws_ami" "linux" {
-    most_recent = true
-
-    filter {
-      name = "name"
-      values = ["al2023-ami-2023.3.20240131.0-kernel-6.1-x86_64"]
-    }
+  owners = ["amazon"]
+  # Pinned AMI is deprecated by Amazon 90 days after release, keep resolving it after that.
+  include_deprecated = true
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023.12.20260930.0-kernel-6.1-x86_64"]
+  }
 }
 
+locals {
+  # CMDBuild's URL path and config folder name: cmdbuildTest in test, cmdbuildProd in prod.
+  cmdbuild_webapp = "cmdbuild${title(var.target_env)}"
+}
 
 resource "aws_instance" "cmdb" {
-  ami = data.aws_ami.linux.id
-  instance_type = "t2.large"
-  subnet_id = values(data.aws_subnet.app)[0].id
+  ami                    = data.aws_ami.linux.id
+  instance_type          = "t2.large"
+  subnet_id              = values(data.aws_subnet.app)[0].id
   vpc_security_group_ids = [data.aws_security_group.app.id]
-  iam_instance_profile = "SSM_S3_Access_Role"
-  user_data = file("user_data.sh")
+  iam_instance_profile   = aws_iam_instance_profile.cmdb_ec2.name
+  user_data = templatefile("user_data.sh", {
+    region          = var.aws_region
+    bucket          = aws_s3_bucket.tomcat.bucket
+    tomcat_version  = var.tomcat_version
+    cmdbuild_war    = var.cmdbuild_war_file
+    cmdbuild_webapp = local.cmdbuild_webapp
+    catalina_opts   = var.catalina_opts
+  })
 
   ebs_block_device {
-    device_name = "/dev/xvda"
+    device_name           = "/dev/xvda"
     delete_on_termination = true
-    encrypted = true
+    encrypted             = true
   }
   tags = {
     "Name" = "${var.application}-${var.target_env}"
+    # Picked up by the daily snapshot policy in snapshots.tf
+    "SnapshotPolicy" = "${var.application}-${var.target_env}-daily"
+    # Selects the patch baseline in patching.tf
+    "PatchGroup" = "${var.application}-${var.target_env}"
+  }
+
+  # user_data.sh downloads from the tomcat bucket at first boot, so the read policy must exist first.
+  depends_on = [aws_iam_role_policy.cmdb_ec2_tomcat_bucket]
+
+  lifecycle {
+    # The app is installed by hand on this box; without this a new AL2023 AMI
+    # release would replace the instance and wipe it. It also means edits to
+    # user_data.sh only reach a new instance.
+    # user_data.sh sets up Tomcat and CMDBuild at first boot.
+    ignore_changes = [ami, user_data]
   }
 }
