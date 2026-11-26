@@ -181,3 +181,6 @@ Runs for the same environment queue one at a time. The workflow signs in to AWS 
 4. Open a pull request into `main` and merge it after review.
 5. Run AWS Deploy from `main` with `plan_only` unticked to apply.
 6. Repeat for the other environment, then check the site and the alert emails.
+7. For a major change (for example a CMDBuild, Tomcat or PostgreSQL major upgrade, or a move to a new account), tag the
+   release once PROD is deployed and checked. Check the latest tag first and increase it from there. Tag the merge commit on
+   `main` (the commit that was deployed) and push the tag.
